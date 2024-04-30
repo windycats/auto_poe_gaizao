@@ -29,7 +29,9 @@ class MyThread(object):
     def my_window(self):
         global text_box, window
         window = tk.Tk()
-        window.title('poe')  # 标题
+        window.title('POE')  # 标题
+        win_img = tk.PhotoImage(file=r'C:\Users\EDY\Pictures\Saved Pictures\小皮.gif')
+        window.iconphoto(False, win_img)
         window.attributes('-topmost', True)  # 显示到最顶层
         window.geometry("600x600+1200+100")  # 窗口大小
         input1 = tk.Entry(window, width=60)  # 输入框的样式
@@ -56,6 +58,7 @@ class MyThread(object):
             self.gui.rightClick()
             my_mode = pyperclip.paste()
             if ct in my_mode:  # 判断需要的词缀
+                text_box.delete('1.0', tk.END)  # 清除文本框
                 text_box.insert('1.0', pyperclip.paste())
                 window.deiconify()
                 break
