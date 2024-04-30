@@ -14,15 +14,28 @@ class MyThread(object):
     def gaizao(self):
         print(1)
 
+    def zengfu(self):
+        print(2)
+
+    def hundun(self):
+        print(3)
+
+    def jihui(self):
+        print(4)
+
+    def chongzhu(self):
+        print(5)
+
     def my_window(self):
-        global text_box
+        global text_box, window
         window = tk.Tk()
         window.title('poe')  # 标题
         window.attributes('-topmost', True)  # 显示到最顶层
-        window.geometry("600x600")  # 窗口大小
+        window.geometry("600x600+1200+100")  # 窗口大小
         input1 = tk.Entry(window, width=60)  # 输入框的样式
         input1.pack()
-        tk.Button(window, text='确认', width=60, command=lambda: self.main_method(input1.get())).pack()
+        tk.Button(window, text='确认', width=60,
+                  command=lambda: (window.withdraw(), self.main_method(input1.get()))).pack()
         # 按钮调用改造方法并传入输入框的文本
         text_box = tk.Text(window, width=60, height=40)  # 设置按钮
         text_box.pack()
@@ -43,7 +56,8 @@ class MyThread(object):
             self.gui.rightClick()
             my_mode = pyperclip.paste()
             if ct in my_mode:  # 判断需要的词缀
-
+                text_box.insert('1.0', pyperclip.paste())
+                window.deiconify()
                 break
             else:
                 self.gaizao()  # 调用改造方法
@@ -51,9 +65,11 @@ class MyThread(object):
 
     def switch(self):
         while 1:
-            keyboard.wait('F1')  # 这里暂时用的f1键控制
+            keyboard.wait('k')  # 这里暂时用的k键控制
             self.going = not self.going
-            text_box.insert('1.0', pyperclip.paste())
+            text_box.delete('1.0', tk.END)  # 清除文本框
+            text_box.insert('1.0', pyperclip.paste())  # 呈现把剪切板的文本
+            window.deiconify()
             # sleep(1)
 
 
