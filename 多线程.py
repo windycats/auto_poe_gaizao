@@ -39,12 +39,13 @@ class MyThread(object):
         window.geometry("600x700+1200+100")  # 窗口大小
         input1 = tk.Entry(window, width=60)  # 输入框的样式
         input1.pack()
+        # tk.Label(window, text='输入需求个数：').grid(side=tk.LEFT)
         input2 = tk.Entry(window, width=10)
         input2.insert(0,1)
-        input2.pack()
+        input2.pack(padx=5, pady=5)
         tk.Button(window, text='确认', width=60,
                   command=lambda: (
-                  window.withdraw(), self.main_method(self.deal_text(), var.get(), input2.get()))).pack()
+                  window.withdraw(), self.main_method(self.deal_text(), var.get(), input2.get()))).pack(padx=5, pady=5)
         # 按钮调用改造方法并传入输入框的文本
         text_box = tk.Text(window, width=60, height=40)  # 设置按钮
         text_box.pack(padx=10)
@@ -53,7 +54,6 @@ class MyThread(object):
         rdo.pack(side=tk.LEFT, padx=90)
         tk.Radiobutton(window, text="混沌", variable=var, value=2).pack(side=tk.LEFT)
         tk.Radiobutton(window, text="机会", variable=var, value=3).pack(side=tk.LEFT, padx=90)
-
         window.mainloop()
 
     def main_method(self, text_list, code, num):
