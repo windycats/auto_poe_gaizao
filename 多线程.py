@@ -12,33 +12,38 @@ class MyThread(object):
         self.going = True  # bool值开关控制
 
     def gaizao(self):
-        print(1)
+        print("——————————————————————————————改造中——————————————————————————————")
 
     def hundun(self):
-        print(2)
+        print("——————————————————————————————混沌中——————————————————————————————")
 
     def jihui(self):
-        print(3)
+        print("——————————————————————————————机会中——————————————————————————————")
 
     def my_window(self):
-        global text_box, window
+        global text_box, window, var
         window = tk.Tk()
         window.title('POE')  # 标题
         win_img = tk.PhotoImage(file=r'C:\Users\EDY\Pictures\Saved Pictures\小皮.gif')
         window.iconphoto(False, win_img)
         window.attributes('-topmost', True)  # 显示到最顶层
-        window.geometry("600x600+1200+100")  # 窗口大小
+        window.geometry("600x700+1200+100")  # 窗口大小
         input1 = tk.Entry(window, width=60)  # 输入框的样式
         input1.pack()
         tk.Button(window, text='确认', width=60,
-                  command=lambda: (window.withdraw(), self.main_method(input1.get(),1))).pack()
+                  command=lambda: (window.withdraw(), self.main_method(input1.get(), var.get()))).pack()
         # 按钮调用改造方法并传入输入框的文本
         text_box = tk.Text(window, width=60, height=40)  # 设置按钮
         text_box.pack(padx=10)
-        # text_box.insert('1.0', pyperclip.paste())
+        var = tk.StringVar(value=1)
+        rdo = tk.Radiobutton(window, text="改造", variable=var, value=1)
+        rdo.pack(side=tk.LEFT, padx=90)
+        tk.Radiobutton(window, text="混沌", variable=var, value=2).pack(side=tk.LEFT)
+        tk.Radiobutton(window, text="机会", variable=var, value=3).pack(side=tk.LEFT, padx=90)
+
         window.mainloop()
 
-    def main_method(self, ct,num):
+    def main_method(self, ct, num):
 
         while 1:
             if not self.going:  # 控制整体循环
@@ -55,12 +60,12 @@ class MyThread(object):
                 window.deiconify()
                 break
             else:
-                if num == 1:
+                if num == '1':
                     self.gaizao()  # 调用改造方法
-                elif num == 2:
+                elif num == '2':
+                    self.hundun()  # 调用的混沌方法
+                elif num == '3':
                     self.jihui()  # 调用机会重铸的方法
-                elif num == 3:
-                    self.hundun()  # 调用混沌的方法
             sleep(0.5)
 
     def switch(self):
