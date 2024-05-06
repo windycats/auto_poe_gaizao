@@ -20,8 +20,17 @@ class MyThread(object):
     def jihui(self):
         print("——————————————————————————————机会中——————————————————————————————")
 
-    def my_window(self):
-        global text_box, window, var
+    def deal_text(self):    # 处理输入的参数用“、”分割
+        try:
+            text_list = (input1.get().split('、'))
+            print(text_list)
+        except:
+            print(1)
+        finally:
+            return text_list
+
+    def my_window(self):    # 界面窗口
+        global text_box, window, var, input1
         window = tk.Tk()
         window.title('POE')  # 标题
         win_img = tk.PhotoImage(file=r'C:\Users\EDY\Pictures\Saved Pictures\小皮.gif')
@@ -30,8 +39,12 @@ class MyThread(object):
         window.geometry("600x700+1200+100")  # 窗口大小
         input1 = tk.Entry(window, width=60)  # 输入框的样式
         input1.pack()
+        input2 = tk.Entry(window, width=10)
+        input2.insert(0,1)
+        input2.pack()
         tk.Button(window, text='确认', width=60,
-                  command=lambda: (window.withdraw(), self.main_method(input1.get(), var.get()))).pack()
+                  command=lambda: (
+                  window.withdraw(), self.main_method(self.deal_text(), var.get(), input2.get()))).pack()
         # 按钮调用改造方法并传入输入框的文本
         text_box = tk.Text(window, width=60, height=40)  # 设置按钮
         text_box.pack(padx=10)
@@ -43,9 +56,10 @@ class MyThread(object):
 
         window.mainloop()
 
-    def main_method(self, ct, num):
+    def main_method(self, text_list, code, num):
 
         while 1:
+            count_num = 0
             if not self.going:  # 控制整体循环
                 print("program_stopping")
                 self.going = True
@@ -54,23 +68,35 @@ class MyThread(object):
             self.gui.moveTo()
             self.gui.hotkey('ctrl', 'alt', 'c')
             my_mode = pyperclip.paste()
-            if ct in my_mode:  # 判断需要的词缀
-                text_box.delete('1.0', tk.END)  # 清除文本框
-                text_box.insert('1.0', pyperclip.paste())  # 把剪切板的数据放进去
-                window.deiconify()
-                break
+            for ct in text_list:
+                if ct in my_mode:  # 判断需要的词缀
+                    print(ct + "满足条件")
+                    print("存在次数为" + str(count_num))
+                    count_num += 1
+                    if count_num == int(num):
+                        text_box.delete('1.0', tk.END)  # 清除文本框
+                        text_box.insert('1.0', pyperclip.paste())  # 把剪切板的数据放进去
+                        window.deiconify()
+                        return
+                    else:
+                        continue
+                else:
+                    print(ct+"不存在跳过")
+                    continue
+            print("存在个数为："+str(count_num)+"需要个数为："+num)
+            if code == '1':
+                self.gaizao()  # 调用改造方法
+            elif code == '2':
+                self.hundun()  # 调用的混沌方法
+            elif code == '3':
+                self.jihui()  # 调用机会重铸的方法
             else:
-                if num == '1':
-                    self.gaizao()  # 调用改造方法
-                elif num == '2':
-                    self.hundun()  # 调用的混沌方法
-                elif num == '3':
-                    self.jihui()  # 调用机会重铸的方法
-            sleep(0.5)
+                print("code参数错误")
+            sleep(1)
 
     def switch(self):
         while 1:
-            keyboard.wait('k')  # 这里暂时用的k键控制
+            keyboard.wait('f2')  # 这里暂时用的k键控制
             self.going = not self.going
             text_box.delete('1.0', tk.END)  # 清除文本框
             text_box.insert('1.0', pyperclip.paste())  # 呈现把剪切板的文本
