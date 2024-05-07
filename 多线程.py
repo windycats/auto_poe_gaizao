@@ -10,17 +10,47 @@ class MyThread(object):
     def __init__(self):
         self.gui = pyautogui
         self.going = True  # bool值开关控制
+        self.th_pos = {"混沌石": [543, 260], "改造石": [110, 258], "增幅石": [225, 318], "富豪石": [432, 264], "重铸石": [432, 502],
+                       "蜕变石": [58, 265], "剥离石": [167, 263], "崇高石": [299, 277], "机会石": [219, 267]}
 
     def gaizao(self):
         print("——————————————————————————————改造中——————————————————————————————")
-
+        self.gui.moveTo(self.th_pos["改造石"][0], self.th_pos["改造石"][1])
+        self.gui.rightClick()
+        self.gui.moveTo(x=319, y=437)
+        self.gui.leftClick()
+    # def gaizao_zeng(self):
+    #     print("——————————————————————————————改造中——————————————————————————————")
+    #     self.gui.moveTo(self.th_pos["改造石"][0], self.th_pos["改造石"][1])
+    #     self.gui.rightClick()
+    #     self.gui.moveTo(x=319, y=437)
+    #     self.gui.leftClick()
+    #     print("——————————————————————————————增幅石——————————————————————————————")
+    #     self.gui.moveTo(self.th_pos["增幅石"][0], self.th_pos["增幅石"][1])
+    #     self.gui.rightClick()
+    #     self.gui.moveTo(x=319, y=437)
+    #     self.gui.leftClick()
     def hundun(self):
         print("——————————————————————————————混沌中——————————————————————————————")
+        self.gui.moveTo(self.th_pos["混沌石"][0], self.th_pos["混沌石"][1])
+        self.gui.rightClick()
+        self.gui.moveTo(x=319, y=437)
+        self.gui.leftClick()
 
     def jihui(self):
-        print("——————————————————————————————机会中——————————————————————————————")
+        print("——————————————————————————————重铸石——————————————————————————————")
 
-    def deal_text(self):    # 处理输入的参数用“、”分割
+        self.gui.moveTo(self.th_pos["重铸石"][0], self.th_pos["重铸石"][1])
+        self.gui.rightClick()
+        self.gui.moveTo(x=319, y=437)
+        self.gui.leftClick()
+        print("——————————————————————————————机会石——————————————————————————————")
+        self.gui.moveTo(self.th_pos["机会石"][0], self.th_pos["机会石"][1])
+        self.gui.rightClick()
+        self.gui.moveTo(x=319, y=437)
+        self.gui.leftClick()
+
+    def deal_text(self):  # 处理输入的参数用“、”分割
         try:
             text_list = (input1.get().split('、'))
             print(text_list)
@@ -29,23 +59,24 @@ class MyThread(object):
         finally:
             return text_list
 
-    def my_window(self):    # 界面窗口
+    def my_window(self):  # 界面窗口
         global text_box, window, var, input1
         window = tk.Tk()
         window.title('POE')  # 标题
-        win_img = tk.PhotoImage(file=r'C:\Users\EDY\Pictures\Saved Pictures\小皮.gif')
-        window.iconphoto(False, win_img)
+        # win_img = tk.PhotoImage(file=r'C:\Users\EDY\Pictures\Saved Pictures\小皮.gif')
+        # window.iconphoto(False, win_img)
         window.attributes('-topmost', True)  # 显示到最顶层
         window.geometry("600x700+1200+100")  # 窗口大小
         input1 = tk.Entry(window, width=60)  # 输入框的样式
         input1.pack()
         # tk.Label(window, text='输入需求个数：').grid(side=tk.LEFT)
         input2 = tk.Entry(window, width=10)
-        input2.insert(0,1)
+        input2.insert(0, 1)
         input2.pack(padx=5, pady=5)
         tk.Button(window, text='确认', width=60,
                   command=lambda: (
-                  window.withdraw(), self.main_method(self.deal_text(), var.get(), input2.get()))).pack(padx=5, pady=5)
+                      window.withdraw(), self.main_method(self.deal_text(), var.get(), input2.get()))).pack(padx=5,
+                                                                                                            pady=5)
         # 按钮调用改造方法并传入输入框的文本
         text_box = tk.Text(window, width=60, height=40)  # 设置按钮
         text_box.pack(padx=10)
@@ -54,6 +85,7 @@ class MyThread(object):
         rdo.pack(side=tk.LEFT, padx=90)
         tk.Radiobutton(window, text="混沌", variable=var, value=2).pack(side=tk.LEFT)
         tk.Radiobutton(window, text="机会", variable=var, value=3).pack(side=tk.LEFT, padx=90)
+        # tk.Radiobutton(window, text="改造增幅", variable=var, value=4).pack(side=tk.LEFT)
         window.mainloop()
 
     def main_method(self, text_list, code, num):
@@ -65,7 +97,7 @@ class MyThread(object):
                 self.going = True
                 break
             print("going ==", self.going)
-            self.gui.moveTo()
+            self.gui.moveTo(x=319, y=437)
             self.gui.hotkey('ctrl', 'alt', 'c')
             my_mode = pyperclip.paste()
             for ct in text_list:
@@ -81,9 +113,9 @@ class MyThread(object):
                     else:
                         continue
                 else:
-                    print(ct+"不存在跳过")
+                    print(ct + "不存在跳过")
                     continue
-            print("存在个数为："+str(count_num)+"需要个数为："+num)
+            print("存在个数为：" + str(count_num) + "需要个数为：" + num)
             if code == '1':
                 self.gaizao()  # 调用改造方法
             elif code == '2':
@@ -92,11 +124,11 @@ class MyThread(object):
                 self.jihui()  # 调用机会重铸的方法
             else:
                 print("code参数错误")
-            sleep(1)
+            # sleep(1)
 
     def switch(self):
         while 1:
-            keyboard.wait('f2')  # 这里暂时用的k键控制
+            keyboard.wait('f1')  # 这里暂时用的k键控制
             self.going = not self.going
             text_box.delete('1.0', tk.END)  # 清除文本框
             text_box.insert('1.0', pyperclip.paste())  # 呈现把剪切板的文本
