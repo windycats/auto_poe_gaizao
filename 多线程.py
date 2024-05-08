@@ -4,7 +4,7 @@ import keyboard
 import pyautogui
 import pyperclip
 import tkinter as tk
-
+from playsound import playsound
 
 class MyThread(object):
     def __init__(self):
@@ -99,7 +99,6 @@ class MyThread(object):
         window.mainloop()
 
     def main_method(self, text_list, code, num):
-
         while 1:
             count_num = 0
             if not self.going:  # 控制整体循环
@@ -120,6 +119,7 @@ class MyThread(object):
                         text_box.delete('1.0', tk.END)  # 清除文本框
                         text_box.insert('1.0', pyperclip.paste())  # 把剪切板的数据放进去
                         window.deiconify()
+                        # playsound('./神圣石.mp3')
                         return
                     else:
                         continue
