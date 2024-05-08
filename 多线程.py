@@ -10,7 +10,8 @@ class MyThread(object):
     def __init__(self):
         self.gui = pyautogui
         self.going = True  # bool值开关控制
-        self.th_pos = {"混沌石": [543, 260], "改造石": [110, 258], "增幅石": [225, 318], "富豪石": [432, 264], "重铸石": [432, 502],
+        self.th_pos = {"混沌石": [543, 260], "改造石": [110, 258], "增幅石": [225, 318], "富豪石": [432, 264],
+                       "重铸石": [432, 502],
                        "蜕变石": [58, 265], "剥离石": [167, 263], "崇高石": [299, 277], "机会石": [219, 267]}
 
     def gaizao(self):
@@ -19,17 +20,21 @@ class MyThread(object):
         self.gui.rightClick()
         self.gui.moveTo(x=319, y=437)
         self.gui.leftClick()
-    # def gaizao_zeng(self):
-    #     print("——————————————————————————————改造中——————————————————————————————")
-    #     self.gui.moveTo(self.th_pos["改造石"][0], self.th_pos["改造石"][1])
-    #     self.gui.rightClick()
-    #     self.gui.moveTo(x=319, y=437)
-    #     self.gui.leftClick()
-    #     print("——————————————————————————————增幅石——————————————————————————————")
-    #     self.gui.moveTo(self.th_pos["增幅石"][0], self.th_pos["增幅石"][1])
-    #     self.gui.rightClick()
-    #     self.gui.moveTo(x=319, y=437)
-    #     self.gui.leftClick()
+
+    def gaizao_zeng(self, count_ct,count_num):
+        if count_ct == 1 and count_num == 1:
+            print("——————————————————————————————增幅中——————————————————————————————")
+            self.gui.moveTo(self.th_pos["增幅石"][0], self.th_pos["增幅石"][1])
+            self.gui.rightClick()
+            self.gui.moveTo(x=319, y=437)
+            self.gui.leftClick()
+        else:
+            print("——————————————————————————————改造中——————————————————————————————")
+            self.gui.moveTo(self.th_pos["改造石"][0], self.th_pos["改造石"][1])
+            self.gui.rightClick()
+            self.gui.moveTo(x=319, y=437)
+            self.gui.leftClick()
+
     def hundun(self):
         print("——————————————————————————————混沌中——————————————————————————————")
         self.gui.moveTo(self.th_pos["混沌石"][0], self.th_pos["混沌石"][1])
@@ -85,7 +90,7 @@ class MyThread(object):
         rdo.pack(side=tk.LEFT, padx=90)
         tk.Radiobutton(window, text="混沌", variable=var, value=2).pack(side=tk.LEFT)
         tk.Radiobutton(window, text="机会", variable=var, value=3).pack(side=tk.LEFT, padx=90)
-        # tk.Radiobutton(window, text="改造增幅", variable=var, value=4).pack(side=tk.LEFT)
+        tk.Radiobutton(window, text="改造增幅", variable=var, value=4).pack(side=tk.LEFT)
         window.mainloop()
 
     def main_method(self, text_list, code, num):
@@ -100,6 +105,7 @@ class MyThread(object):
             self.gui.moveTo(x=319, y=437)
             self.gui.hotkey('ctrl', 'alt', 'c')
             my_mode = pyperclip.paste()
+            count_ct = my_mode.count("缀属性")
             for ct in text_list:
                 if ct in my_mode:  # 判断需要的词缀
                     print(ct + "满足条件")
@@ -122,13 +128,15 @@ class MyThread(object):
                 self.hundun()  # 调用的混沌方法
             elif code == '3':
                 self.jihui()  # 调用机会重铸的方法
+            elif code == '4':
+                self.gaizao_zeng(count_num, int(count_ct))  # 调用机会重铸的方法
             else:
                 print("code参数错误")
             # sleep(1)
 
     def switch(self):
         while 1:
-            keyboard.wait('f1')  # 这里暂时用的k键控制
+            keyboard.wait('f1')  # 这里用的f1键控制
             self.going = not self.going
             text_box.delete('1.0', tk.END)  # 清除文本框
             text_box.insert('1.0', pyperclip.paste())  # 呈现把剪切板的文本
