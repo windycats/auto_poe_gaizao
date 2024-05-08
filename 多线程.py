@@ -12,50 +12,55 @@ class MyThread(object):
         self.going = True  # bool值开关控制
         self.th_pos = {"混沌石": [543, 260], "改造石": [110, 258], "增幅石": [225, 318], "富豪石": [432, 264],
                        "重铸石": [432, 502],
-                       "蜕变石": [58, 265], "剥离石": [167, 263], "崇高石": [299, 277], "机会石": [219, 267]}
+                       "蜕变石": [58, 265], "剥离石": [167, 263], "崇高石": [299, 277], "机会石": [219, 267],
+                       "待改造物品": [319, 437]}
+
+    '''
+    通货的位置都装在字典里面了，通过调用通货的名称读取列表里面通货的位置
+    通过调整物品的位置进行操作
+    '''
 
     def gaizao(self):
         print("——————————————————————————————改造中——————————————————————————————")
         self.gui.moveTo(self.th_pos["改造石"][0], self.th_pos["改造石"][1])
         self.gui.rightClick()
-        self.gui.moveTo(x=319, y=437)
+        self.gui.moveTo(self.th_pos["待改造物品"][0], self.th_pos["待改造物品"][1])
         self.gui.leftClick()
 
-    def gaizao_zeng(self, count_ct,count_num):
-        if count_ct == 1 and count_num == 1:
+    def gaizao_zeng(self, count_ct, count_num):
+        if count_ct == 1 and count_num == 1:  # 满足一个需要的词条并且只有一条前缀或者后缀
             print("——————————————————————————————增幅中——————————————————————————————")
             self.gui.moveTo(self.th_pos["增幅石"][0], self.th_pos["增幅石"][1])
             self.gui.rightClick()
-            self.gui.moveTo(x=319, y=437)
+            self.gui.moveTo(self.th_pos["待改造物品"][0], self.th_pos["待改造物品"][1])
             self.gui.leftClick()
         else:
             print("——————————————————————————————改造中——————————————————————————————")
             self.gui.moveTo(self.th_pos["改造石"][0], self.th_pos["改造石"][1])
             self.gui.rightClick()
-            self.gui.moveTo(x=319, y=437)
+            self.gui.moveTo(self.th_pos["待改造物品"][0], self.th_pos["待改造物品"][1])
             self.gui.leftClick()
 
     def hundun(self):
         print("——————————————————————————————混沌中——————————————————————————————")
         self.gui.moveTo(self.th_pos["混沌石"][0], self.th_pos["混沌石"][1])
         self.gui.rightClick()
-        self.gui.moveTo(x=319, y=437)
+        self.gui.moveTo(self.th_pos["待改造物品"][0], self.th_pos["待改造物品"][1])
         self.gui.leftClick()
 
     def jihui(self):
         print("——————————————————————————————重铸石——————————————————————————————")
-
         self.gui.moveTo(self.th_pos["重铸石"][0], self.th_pos["重铸石"][1])
         self.gui.rightClick()
-        self.gui.moveTo(x=319, y=437)
+        self.gui.moveTo(self.th_pos["待改造物品"][0], self.th_pos["待改造物品"][1])
         self.gui.leftClick()
         print("——————————————————————————————机会石——————————————————————————————")
         self.gui.moveTo(self.th_pos["机会石"][0], self.th_pos["机会石"][1])
         self.gui.rightClick()
-        self.gui.moveTo(x=319, y=437)
+        self.gui.moveTo(self.th_pos["待改造物品"][0], self.th_pos["待改造物品"][1])
         self.gui.leftClick()
 
-    def deal_text(self):  # 处理输入的参数用“、”分割
+    def deal_text(self):  # 处理输入的参数用“、”分割，分割好的数据会存成一个列表方便后面循环读取
         try:
             text_list = (input1.get().split('、'))
             print(text_list)
@@ -129,7 +134,7 @@ class MyThread(object):
             elif code == '3':
                 self.jihui()  # 调用机会重铸的方法
             elif code == '4':
-                self.gaizao_zeng(count_num, int(count_ct))  # 调用机会重铸的方法
+                self.gaizao_zeng(count_num, int(count_ct))  # 调用改造增幅的方法，count_num是存在需要个数，count_ct是由多少个词缀
             else:
                 print("code参数错误")
             # sleep(1)
